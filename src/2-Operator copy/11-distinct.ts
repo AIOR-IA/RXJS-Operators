@@ -1,4 +1,4 @@
-import { distinct, distinctUntilChanged, from, of } from "rxjs";
+import { distinct, from, of } from "rxjs";
 
 /**
  * filtra como sql, que no toquen repetidos, la
@@ -7,7 +7,7 @@ const numbers$ = of(1,1,1,2,2,3,3,2,2,4,4,5,3,1);
 
 numbers$
     .pipe(
-        distinctUntilChanged()
+        distinct()
     )
     .subscribe( console.log ) // output 1 2 3 4 5
 interface Character {
@@ -28,7 +28,7 @@ const characters: Character[] = [
         name: 'Megaman'
     },
     {
-        name: 'Megaman'
+        name: 'Wolverine'
     },
     {
         name: 'Megaman'
@@ -43,6 +43,6 @@ const characters: Character[] = [
 
 from(characters)
     .pipe(
-        distinctUntilChanged( (ant , current) => ant.name === current.name )
+        distinct( val => val.name )
     )
     .subscribe( console.log )

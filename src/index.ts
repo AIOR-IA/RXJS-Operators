@@ -1,48 +1,10 @@
-import { distinct, distinctUntilChanged, from, of } from "rxjs";
 
-/**
- * filtra como sql, que no toquen repetidos, la
- */
-const numbers$ = of(1,1,1,2,2,3,3,2,2,4,4,5,3,1);
 
-numbers$
-    .pipe(
-        distinctUntilChanged()
-    )
-    .subscribe( console.log ) // output 1 2 3 4 5
-interface Character {
-    name: string
-}
+const apiKey = process.env.apikey;
+const ts = process.env.ts;
+const hash = process.env.hash;
+const url = `https://gateway.marvel.com:443/v1/public/characters?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
 
-const characters: Character[] = [
-    {
-        name: 'Megaman'
-    },
-    {
-        name: 'X-men'
-    },
-    {
-        name: 'Zero'
-    },
-    {
-        name: 'Megaman'
-    },
-    {
-        name: 'Megaman'
-    },
-    {
-        name: 'Megaman'
-    },
-    {
-        name: 'Zero'
-    },
-    {
-        name: 'Megaman'
-    },
-]
-
-from(characters)
-    .pipe(
-        distinctUntilChanged( (ant , current) => ant.name === current.name )
-    )
-    .subscribe( console.log )
+fetch(url)
+    .then( res => res.json())
+    .then( data => console.log(data.data))
